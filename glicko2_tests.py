@@ -26,6 +26,23 @@ OTHER DEALINGS IN THE SOFTWARE.
 import glicko2
 import timeit
 
+def exampleCaseFeb222012():
+    #match feb 12 2012 paper's example: http://www.glicko.net/glicko/glicko2.pdf
+    #same as exampleCase(), except rd starts at 200
+    #expected vol': 0.059999
+    #expected r': 1464.06
+    #expected rd': 151.52
+    P1 = glicko2.Player()
+    P1.setRd(200)
+    print("Tau: " + str(P1._tau))
+    print("Old Rating: " + str(P1.rating))
+    print("Old Rating Deviation: " + str(P1.rd))
+    print("Old Volatility: " + str(P1.vol))
+    P1.update_player([1400, 1550, 1700], [30, 100, 300], [1, 0, 0])
+    print("New Rating: " + str(P1.rating))
+    print("New Rating Deviation: " + str(P1.rd))
+    print("New Volatility: " + str(P1.vol))
+
 def exampleCase():
     # Create a player called Ryan
     Ryan = glicko2.Player()
@@ -57,3 +74,4 @@ def timingExample(runs = 10000):
 if __name__ == "__main__":
     exampleCase()
     timingExample()
+    exampleCaseFeb222012()

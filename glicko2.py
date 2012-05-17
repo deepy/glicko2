@@ -85,33 +85,59 @@ class Player:
                        (outcome_list[i] - self._E(rating_list[i], RD_list[i]))
         self.__rating += math.pow(self.__rd, 2) * tempSum
         
-        
+    #step 5        
     def _newVol(self, rating_list, RD_list, outcome_list, v):
-        """ Calculating the new volatility as per the Glicko2 system.
+        """ Calculating the new volatility as per the Glicko2 system. 
         
-        _newVol(list, list, list) -> float
+        Updated for Feb 22, 2012 revision. -Leo
+        
+        _newVol(list, list, list, float) -> float
         
         """
-        i = 0
-        delta = self._delta(rating_list, RD_list, outcome_list, v)
-        a = math.log(math.pow(self.vol, 2))
-        tau = self._tau
-        x0 = a
-        x1 = 0
+        #step 1
+        a = math.log(self.vol**2)
+        eps = 0.000001
+        A = a
         
-        while x0 != x1:
-            # New iteration, so x(i) becomes x(i-1)
-            x0 = x1
-            d = math.pow(self.__rating, 2) + v + math.exp(x0)
-            h1 = -(x0 - a) / math.pow(tau, 2) - 0.5 * math.exp(x0) \
-            / d + 0.5 * math.exp(x0) * math.pow(delta / d, 2)
-            h2 = -1 / math.pow(tau, 2) - 0.5 * math.exp(x0) * \
-            (math.pow(self.__rating, 2) + v) \
-            / math.pow(d, 2) + 0.5 * math.pow(delta, 2) * math.exp(x0) \
-            * (math.pow(self.__rating, 2) + v - math.exp(x0)) / math.pow(d, 3)
-            x1 = x0 - (h1 / h2)
-
-        return math.exp(x1 / 2)
+        #step 2
+        B = None
+        delta = self._delta(rating_list, RD_list, outcome_list, v)
+        tau = self._tau
+        if (delta ** 2)  > ((self.__rating**2) + v):
+          B = math.log(delta**2 - self.__rating**2 - v)
+        else:        
+          k = 1
+          while self._f(a - k * math.sqrt(tau**2), delta, v, a) < 0:
+            k = k + 1
+          B = a - k * math.sqrt(tau **2)
+        
+        #step 3
+        fA = self._f(A, delta, v, a)
+        fB = self._f(B, delta, v, a)
+        
+        #step 4
+        while math.fabs(B - A) > eps:
+          #a
+          C = A + ((A - B) * fA)/(fB - fA)
+          fC = self._f(C, delta, v, a)
+          #b
+          if fC * fB < 0:
+            A = B
+            fA = fB
+          else:
+            fA = fA/2.0
+          #c
+          B = C
+          fB = fC
+        
+        #step 5
+        return math.exp(A / 2)
+        
+    def _f(self, x, delta, v, a):
+      ex = math.exp(x)
+      num1 = ex * (delta**2 - self.__rating**2 - v - ex)
+      denom1 = 2 * ((self.__rating**2 + v + ex)**2)
+      return  (num1 / denom1) - ((x - a) / (self._tau**2))
         
     def _delta(self, rating_list, RD_list, outcome_list, v):
         """ The delta function of the Glicko2 system.
