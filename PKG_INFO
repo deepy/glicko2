@@ -1,0 +1,13 @@
+Metadata-Version: 1.1
+Name: glicko2
+Version: 1.0
+Author: Alexander Nordlund
+Author-email: deep alexander at gmail com
+Home-page: https://bitbucket.org/deepy/glicko2/
+Download-url: UNKNOWN
+Summary: Python implementation of glicko2
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+
