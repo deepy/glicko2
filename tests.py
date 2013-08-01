@@ -23,7 +23,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
-import glicko2
+from glicko2 import glicko2
 import timeit
 
 def exampleCaseFeb222012():
@@ -68,7 +68,7 @@ def timingExample(runs = 10000):
                              Ryan.update_player([x \
     for x in [1400, 1550, 1700]], \
     [x for x in [30, 100, 300]], [1, 0, 0])", \
-        "import glicko2").repeat(1, 10000)
+        "from glicko2 import glicko2").repeat(1, 10000)
     print(round(timeTaken[0], 4))
 
 if __name__ == "__main__":

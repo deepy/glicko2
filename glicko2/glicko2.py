@@ -103,8 +103,8 @@ class Player:
         B = None
         delta = self._delta(rating_list, RD_list, outcome_list, v)
         tau = self._tau
-        if (delta ** 2)  > ((self.__rating**2) + v):
-          B = math.log(delta**2 - self.__rating**2 - v)
+        if (delta ** 2)  > ((self.__rd**2) + v):
+          B = math.log(delta**2 - self.__rd**2 - v)
         else:        
           k = 1
           while self._f(a - k * math.sqrt(tau**2), delta, v, a) < 0:
