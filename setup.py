@@ -7,7 +7,7 @@ setuptools.setup(
     name="glicko2",
     version="2.0.0",
     author="Alexander Nordlund",
-    author_email="deep.alexander@gmail.com,
+    author_email="deep.alexander@gmail.com",
     description="Python implementation of glicko2",
     long_description=long_description,
     long_description_content_type="text/markdown",
