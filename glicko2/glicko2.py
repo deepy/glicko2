@@ -121,7 +121,7 @@ class Player:
           C = A + ((A - B) * fA)/(fB - fA)
           fC = self._f(C, delta, v, a)
           #b
-          if fC * fB < 0:
+          if fC * fB <= 0:
             A = B
             fA = fB
           else:
