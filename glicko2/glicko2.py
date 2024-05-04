@@ -25,6 +25,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 import math
 
+GLICKO_SCALE_FACTOR = 400 / math.log(10)
+BASE_RATING = 1500
+
 class Player:
     # Class attribute
     # The system constant, which constrains
@@ -32,22 +35,22 @@ class Player:
     _tau = 0.5
 
     def getRating(self):
-        return (self.__rating * 173.7178) + 1500 
+        return (self.__rating * GLICKO_SCALE_FACTOR) + BASE_RATING
 
     def setRating(self, rating):
-        self.__rating = (rating - 1500) / 173.7178
+        self.__rating = (rating - BASE_RATING) / GLICKO_SCALE_FACTOR
 
     rating = property(getRating, setRating)
 
     def getRd(self):
-        return self.__rd * 173.7178
+        return self.__rd * GLICKO_SCALE_FACTOR
 
     def setRd(self, rd):
-        self.__rd = rd / 173.7178
+        self.__rd = rd / GLICKO_SCALE_FACTOR
 
     rd = property(getRd, setRd)
      
-    def __init__(self, rating = 1500, rd = 350, vol = 0.06):
+    def __init__(self, rating = BASE_RATING, rd = 350, vol = 0.06):
         # For testing purposes, preload the values
         # assigned to an unrated player.
         self.setRating(rating)
@@ -70,7 +73,7 @@ class Player:
         
         """
         # Convert the rating and rating deviation values for internal use.
-        rating_list = [(x - 1500) / 173.7178 for x in rating_list]
+        rating_list = [(x - BASE_RATING) / GLICKO_SCALE_FACTOR for x in rating_list]
         RD_list = [x / 173.7178 for x in RD_list]
 
         v = self._v(rating_list, RD_list)
