@@ -138,8 +138,8 @@ class Player:
         
     def _f(self, x, delta, v, a):
       ex = math.exp(x)
-      num1 = ex * (delta**2 - self.__rating**2 - v - ex)
-      denom1 = 2 * ((self.__rating**2 + v + ex)**2)
+      num1 = ex * (delta**2 - self.__rd**2 - v - ex)
+      denom1 = 2 * ((self.__rd**2 + v + ex)**2)
       return  (num1 / denom1) - ((x - a) / (self._tau**2))
         
     def _delta(self, rating_list, RD_list, outcome_list, v):
